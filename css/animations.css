@@ -1,0 +1,992 @@
+/* ========================================
+   PARKLIFT - COMPLETE ANIMATIONS
+   Including Hero Banner Parking Animation
+   ======================================== */
+
+/* ===== BASE ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== HERO BANNER - PARKING ANIMATION (PDF STYLE) ===== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2A6BFF 0%, #00C48C 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Parking Lot Container */
+.parking-lot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Parking Slots (White Lines) */
+.parking-slots {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 0 5%;
+}
+
+.slot {
+    width: 100px;
+    height: 150px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-bottom: none;
+    border-radius: 15px 15px 0 0;
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+.slot::before {
+    content: 'P';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.slot::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 3px;
+}
+
+/* Cars Driving In Animation */
+.cars {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 2;
+}
+
+.car {
+    position: absolute;
+    font-size: 3rem;
+    color: white;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+    animation: driveIn 4s ease-in-out infinite;
+    z-index: 5;
+}
+
+.car i {
+    filter: drop-shadow(0 5px 8px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+}
+
+/* Different Cars - Different Colors and Timings */
+.car1 { 
+    bottom: 0; 
+    left: -150px; 
+    animation: driveInCar1 6s linear infinite;
+    color: #FFD700; /* Gold */
+}
+
+.car2 { 
+    bottom: 30px; 
+    left: -200px; 
+    animation: driveInCar2 7s linear infinite 0.5s;
+    color: #FF6B6B; /* Red */
+}
+
+.car3 { 
+    bottom: -10px; 
+    left: -250px; 
+    animation: driveInCar3 8s linear infinite 1s;
+    color: #4ECDC4; /* Turquoise */
+    font-size: 3.5rem;
+}
+
+.car4 { 
+    bottom: 40px; 
+    left: -180px; 
+    animation: driveInCar1 6.5s linear infinite 1.5s;
+    color: #FFE66D; /* Yellow */
+}
+
+.car5 { 
+    bottom: 15px; 
+    left: -220px; 
+    animation: driveInCar2 7.5s linear infinite 2s;
+    color: #95E1D3; /* Light Blue */
+    font-size: 2.8rem;
+}
+
+.car6 { 
+    bottom: 20px; 
+    left: -280px; 
+    animation: driveInCar3 8.5s linear infinite 2.5s;
+    color: #F38181; /* Pink */
+    font-size: 3.2rem;
+}
+
+/* Drive In Animations - Different Patterns */
+@keyframes driveInCar1 {
+    0% {
+        left: -150px;
+        transform: translateY(0) rotate(0deg);
+    }
+    20% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+    40% {
+        transform: translateY(5px) rotate(-1deg);
+    }
+    60% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        left: 120%;
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+@keyframes driveInCar2 {
+    0% {
+        left: -200px;
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-12px) rotate(3deg);
+    }
+    50% {
+        transform: translateY(8px) rotate(-2deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    100% {
+        left: 120%;
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+@keyframes driveInCar3 {
+    0% {
+        left: -250px;
+        transform: translateY(0) rotate(0deg);
+    }
+    30% {
+        transform: translateY(-15px) rotate(4deg);
+    }
+    60% {
+        transform: translateY(10px) rotate(-3deg);
+    }
+    90% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+    100% {
+        left: 120%;
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+/* Parked Cars */
+.parked-cars {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5%;
+    z-index: 3;
+}
+
+.parked {
+    width: 100px;
+    text-align: center;
+    animation: parkedFloat 3s ease-in-out infinite;
+}
+
+.parked i {
+    font-size: 3rem;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+    transform-origin: center;
+    animation: carParkAppear 0.8s ease-out;
+}
+
+.parked:nth-child(1) i { color: #FF6B6B; }
+.parked:nth-child(2) i { color: #4ECDC4; }
+.parked:nth-child(3) i { color: #FFE66D; }
+.parked:nth-child(4) i { color: #95E1D3; }
+.parked:nth-child(5) i { color: #F38181; }
+
+.parked.empty {
+    height: 50px;
+    border: 3px dashed rgba(255,255,255,0.4);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+}
+
+/* Parked Car Animation */
+@keyframes carParkAppear {
+    0% {
+        transform: scale(0) rotate(-15deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3) rotate(8deg);
+    }
+    80% {
+        transform: scale(0.95) rotate(-2deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes parkedFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Hero Content - Overlay */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: white;
+    max-width: 900px;
+    padding: 0 20px;
+    margin-top: -50px;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    animation: fadeInUp 1s ease;
+    letter-spacing: -1px;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    animation: fadeInUp 1s ease 0.3s both;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    animation: fadeInUp 1s ease 0.6s both;
+}
+
+/* ===== BUTTON STYLES ===== */
+.btn {
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: white;
+    color: #2A6BFF;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+}
+
+.btn-outline {
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: #2A6BFF;
+    transform: translateY(-3px);
+}
+
+/* ===== FLOATING CARS BACKGROUND (Optional) ===== */
+.floating-cars-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.1;
+}
+
+.floating-car-bg {
+    position: absolute;
+    font-size: 4rem;
+    color: white;
+    animation: floatAround 15s linear infinite;
+}
+
+.floating-car-bg:nth-child(1) { top: 10%; left: 5%; animation-duration: 18s; }
+.floating-car-bg:nth-child(2) { top: 30%; right: 10%; animation-duration: 22s; }
+.floating-car-bg:nth-child(3) { bottom: 20%; left: 15%; animation-duration: 25s; }
+
+@keyframes floatAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(100px, 50px) rotate(10deg);
+    }
+    50% {
+        transform: translate(200px, 100px) rotate(20deg);
+    }
+    75% {
+        transform: translate(100px, 50px) rotate(10deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* ===== STATS SECTION ANIMATIONS ===== */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin: 4rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    animation: scaleIn 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.1s; }
+.stat-item:nth-child(2) { animation-delay: 0.2s; }
+.stat-item:nth-child(3) { animation-delay: 0.3s; }
+.stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(42,107,255,0.1);
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    color: #2A6BFF;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.stat-item p {
+    color: #4A4A4A;
+    font-weight: 500;
+}
+
+/* ===== MISSION & VISION CARDS ===== */
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.mission-card, .vision-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.mission-card { animation-delay: 0.2s; }
+.vision-card { animation-delay: 0.4s; }
+
+.mission-card:hover, .vision-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(42,107,255,0.15);
+}
+
+.mission-card h3, .vision-card h3 {
+    color: #2A6BFF;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.mission-card ul, .vision-card ul {
+    list-style: none;
+    margin-top: 1.5rem;
+}
+
+.mission-card li, .vision-card li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #4A4A4A;
+    transition: transform 0.3s ease;
+}
+
+.mission-card li:hover, .vision-card li:hover {
+    transform: translateX(10px);
+}
+
+.mission-card i, .vision-card i {
+    color: #2A6BFF;
+}
+
+/* ===== CORE VALUES ===== */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.value-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.value-card:nth-child(1) { animation-delay: 0.1s; }
+.value-card:nth-child(2) { animation-delay: 0.2s; }
+.value-card:nth-child(3) { animation-delay: 0.3s; }
+.value-card:nth-child(4) { animation-delay: 0.4s; }
+.value-card:nth-child(5) { animation-delay: 0.5s; }
+.value-card:nth-child(6) { animation-delay: 0.6s; }
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(42,107,255,0.15);
+}
+
+.value-icon {
+    font-size: 2.5rem;
+    color: #2A6BFF;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.value-card:hover .value-icon {
+    transform: scale(1.1);
+}
+
+.value-card h3 {
+    color: #1A1F36;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.value-card p {
+    color: #4A4A4A;
+    line-height: 1.6;
+}
+
+/* ===== TEAM SECTION ===== */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.team-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    animation: scaleIn 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.team-card:nth-child(1) { animation-delay: 0.2s; }
+.team-card:nth-child(2) { animation-delay: 0.4s; }
+.team-card:nth-child(3) { animation-delay: 0.6s; }
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(42,107,255,0.15);
+}
+
+.team-image {
+    height: 300px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+    transition: transform 0.3s ease;
+}
+
+.team-card:hover .team-image {
+    transform: scale(1.02);
+}
+
+.team-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.team-info h3 {
+    color: #1A1F36;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.team-info .position {
+    color: #2A6BFF;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.team-info .bio {
+    color: #4A4A4A;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.team-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.team-social a {
+    color: #4A4A4A;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #F7F9FC;
+}
+
+.team-social a:hover {
+    color: white;
+    background: #2A6BFF;
+    transform: translateY(-3px);
+}
+
+/* ===== TIMELINE SECTION ===== */
+.timeline-section {
+    background: #F7F9FC;
+    padding: 4rem 2rem;
+}
+
+.timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.timeline-card:nth-child(1) { animation-delay: 0.2s; }
+.timeline-card:nth-child(2) { animation-delay: 0.4s; }
+.timeline-card:nth-child(3) { animation-delay: 0.6s; }
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(42,107,255,0.15);
+}
+
+.timeline-icon {
+    font-size: 2.5rem;
+    color: #2A6BFF;
+    margin-bottom: 1rem;
+}
+
+.timeline-card h3 {
+    color: #1A1F36;
+    margin-bottom: 1rem;
+}
+
+.timeline-card p {
+    color: #4A4A4A;
+    line-height: 1.6;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+    background: linear-gradient(135deg, #2A6BFF 0%, #00C48C 100%);
+    color: white;
+    text-align: center;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.95;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #1A1F36;
+    color: white;
+    padding: 4rem 2rem 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: #999;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #2A6BFF;
+}
+
+.footer-section p {
+    color: #999;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-links a {
+    color: #999;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+
+.social-links a:hover {
+    color: white;
+    background: #2A6BFF;
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid #333;
+    color: #999;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .slot {
+        width: 60px;
+        height: 100px;
+    }
+    
+    .slot::before {
+        font-size: 1rem;
+    }
+    
+    .car {
+        font-size: 2rem;
+    }
+    
+    .parked i {
+        font-size: 2rem;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .mission-vision-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .slot {
+        width: 40px;
+        height: 70px;
+    }
+}
+
+/* ===== NOTIFICATION ANIMATIONS ===== */
+@keyframes slideInNotification {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutNotification {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.notification {
+    animation: slideInNotification 0.3s ease-out;
+}
+
+.notification.hiding {
+    animation: slideOutNotification 0.3s ease-in forwards;
+}
+
+/* ===== LOADING SPINNER ===== */
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #2A6BFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== SUCCESS CHECKMARK ===== */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-checkmark {
+    animation: checkmark 0.5s ease-out;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
