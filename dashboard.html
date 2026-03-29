@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Dashboard - ParkLift</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2A6BFF;
+            --secondary: #00C48C;
+            --dark: #1A1F36;
+            --light: #F7F9FC;
+            --text: #4A4A4A;
+            --white: #FFFFFF;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 25px rgba(42, 107, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR - WITH MOBILE MENU ===== */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark);
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 100;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .profile-dropdown a {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .profile-dropdown a:hover {
+            background: #f5f5f5;
+        }
+
+        .profile-dropdown i {
+            color: var(--primary);
+            width: 18px;
+        }
+
+        /* ===== MOBILE STYLES ===== */
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-links.active {
+                display: flex !important;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+
+            .nav-links a:hover {
+                background: var(--light);
+                color: var(--primary);
+            }
+
+            .profile-section {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+                padding: 10px 0;
+            }
+
+            .profile-dropdown {
+                width: 100%;
+                position: static;
+                margin-top: 10px;
+                box-shadow: none;
+                border: 1px solid #eee;
+            }
+        }
+        
+        /* ===== DASHBOARD CONTAINER ===== */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 0 20px;
+        }
+
+        /* ===== WELCOME BANNER ===== */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            padding: 24px 32px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(42, 107, 255, 0.2);
+        }
+
+        .welcome-content h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: white;
+        }
+
+        .welcome-content p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .quick-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-circle {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 20px;
+            border-radius: 12px;
+            min-width: 100px;
+        }
+
+        .stat-number {
+            font-size: 26px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* ===== QUICK ACTIONS ===== */
+        .quick-actions {
+            margin-bottom: 30px;
+        }
+
+        .quick-actions h2 {
+            color: var(--dark);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 24px 16px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .action-card i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .action-card h3 {
+            color: var(--dark);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .action-card p {
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        /* ===== MAP SECTION ===== */
+        .map-section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            color: var(--dark);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        #map {
+            height: 250px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            z-index: 1;
+        }
+
+        /* ===== ACTIVE BOOKINGS ===== */
+        .active-bookings {
+            margin-bottom: 30px;
+        }
+
+        .active-bookings h2 {
+            color: var(--dark);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .booking-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .booking-status {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .booking-status.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .booking-status.upcoming {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .booking-details h3 {
+            color: var(--dark);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-right: 70px;
+        }
+
+        .booking-details p {
+            color: var(--text);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .booking-details i {
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .booking-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 12px 0 8px;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .booking-actions button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        .btn-extend, .btn-modify {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #fee;
+            color: #f44336;
+        }
+
+        /* ===== RECOMMENDED ===== */
+        .recommended-section {
+            margin-bottom: 30px;
+        }
+
+        .recommended-section h2 {
+            color: var(--dark);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .recommended-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+        }
+
+        .recommended-image {
+            width: 100px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            position: relative;
+        }
+
+        .discount-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #f44336;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .recommended-info {
+            flex: 1;
+            padding: 12px;
+        }
+
+        .recommended-info h3 {
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .recommended-info p {
+            color: var(--text);
+            font-size: 12px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .recommended-info i {
+            color: var(--primary);
+            width: 14px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 11px;
+        }
+
+        .discounted-price {
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .btn-book-now {
+            width: 100%;
+            padding: 6px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #A0A8B7;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-section p {
+            color: #A0A8B7;
+            font-size: 13px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-section i {
+            color: var(--primary);
+            width: 16px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .social-links a {
+            color: #A0A8B7;
+            font-size: 16px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #2A3147;
+            color: #A0A8B7;
+            font-size: 12px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .action-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .booking-cards,
+            .recommended-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar - with Mobile Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">ParkLift</a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="/parking-lots">Parking Lots</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/alerts">Alerts</a>
+                <div class="profile-section" onclick="toggleProfile()">
+                    <div class="profile-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="profile-name" id="userName">John</span>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="/profile"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="/bookings"><i class="fas fa-calendar"></i> My Bookings</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="welcome-content">
+                <h1>Welcome back, <span id="welcomeName">John</span>!</h1>
+                <p>Ready to find your perfect parking spot?</p>
+            </div>
+            <div class="quick-stats">
+                <div class="stat-circle">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Active</span>
+                </div>
+                <div class="stat-circle">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Total</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-cards">
+                <a href="/find-parking" class="action-card">
+                    <i class="fas fa-search-location"></i>
+                    <h3>Find Parking</h3>
+                    <p>Search nearby spots</p>
+                </a>
+                <a href="/my-bookings" class="action-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>My Bookings</h3>
+                    <p>View bookings</p>
+                </a>
+                <a href="/recent" class="action-card">
+                    <i class="fas fa-history"></i>
+                    <h3>Recent</h3>
+                    <p>Frequent spots</p>
+                </a>
+                <a href="/vehicles" class="action-card">
+                    <i class="fas fa-car"></i>
+                    <h3>Vehicles</h3>
+                    <p>Manage vehicles</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Map Section with Live Location -->
+        <div class="map-section">
+            <div class="section-header">
+                <h2>Nearby Parking</h2>
+                <a href="/map" class="view-all">View Full Map →</a>
+            </div>
+            <div id="map"></div>
+            <p id="location-status" style="font-size: 12px; margin-top: 8px; color: #666;"></p>
+        </div>
+
+        <!-- Active Bookings -->
+        <div class="active-bookings">
+            <h2>Active Bookings</h2>
+            <div class="booking-cards">
+                <div class="booking-card">
+                    <span class="booking-status active">Active</span>
+                    <div class="booking-details">
+                        <h3>Connaught Place</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Block E, CP</p>
+                        <p><i class="fas fa-clock"></i> Today, 2:00 - 5:00 PM</p>
+                        <p><i class="fas fa-car"></i> HR26 XX 1234</p>
+                        <div class="booking-price">₹150</div>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn-extend">Extend</button>
+                        <button class="btn-cancel">Cancel</button>
+                    </div>
+                </div>
+                <div class="booking-card">
+                    <span class="booking-status upcoming">Upcoming</span>
+                    <div class="booking-details">
+                        <h3>Rajiv Chowk</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Rajiv Chowk</p>
+                        <p><i class="fas fa-clock"></i> Tomorrow, 9:00 - 12:00</p>
+                        <p><i class="fas fa-car"></i> DL01 AB 5678</p>
+                        <div class="booking-price">₹120</div>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn-modify">Modify</button>
+                        <button class="btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended -->
+        <div class="recommended-section">
+            <h2>Recommended for You</h2>
+            <div class="recommended-grid">
+                <div class="recommended-card">
+                    <div class="recommended-image">
+                        <span class="discount-tag">20%</span>
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <div class="recommended-info">
+                        <h3>Palika Bazaar</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 0.5 km away</p>
+                        <p><i class="fas fa-parking"></i> 45 spots left</p>
+                        <div class="price-row">
+                            <span class="original-price">₹75</span>
+                            <span class="discounted-price">₹60</span>
+                        </div>
+                        <button class="btn-book-now" onclick="alert('Please login to book')">Book Now</button>
+                    </div>
+                </div>
+                <div class="recommended-card">
+                    <div class="recommended-image">
+                        <span class="discount-tag">15%</span>
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <div class="recommended-info">
+                        <h3>Janpath Market</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 0.8 km away</p>
+                        <p><i class="fas fa-parking"></i> 28 spots left</p>
+                        <div class="price-row">
+                            <span class="original-price">₹60</span>
+                            <span class="discounted-price">₹51</span>
+                        </div>
+                        <button class="btn-book-now" onclick="alert('Please login to book')">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#">Smart Parking</a></li>
+                    <li><a href="#">Municipal</a></li>
+                    <li><a href="#">Commercial</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +91 70224 84565</p>
+                <p><i class="fas fa-envelope"></i> hello@parklift.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ParkLift. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // ===== MOBILE MENU JAVASCRIPT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (menuToggle && navLinks) {
+                // Toggle menu on button click
+                menuToggle.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    navLinks.classList.toggle('active');
+                    
+                    // Change icon when menu is open/closed
+                    const icon = menuToggle.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        document.body.style.overflow = ''; // Allow scrolling
+                    }
+                });
+
+                // Close menu when clicking on a link (including profile dropdown links)
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close menu on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+
+        // ========== MAP WITH LIVE LOCATION ==========
+        let map;
+        let userMarker;
+        let userLocation = null;
+
+        function initMap() {
+            // Default location (Delhi)
+            const defaultLocation = [28.6139, 77.2090];
+            
+            // Initialize map
+            map = L.map('map').setView(defaultLocation, 13);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            
+            // Try to get user location
+            if (navigator.geolocation) {
+                document.getElementById('location-status').innerHTML = '📍 Detecting your location...';
+                
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        userLocation = [lat, lng];
+                        
+                        // Center map on user location
+                        map.setView(userLocation, 14);
+                        
+                        // Add user marker
+                        if (userMarker) {
+                            userMarker.setLatLng(userLocation);
+                        } else {
+                            userMarker = L.marker(userLocation, {
+                                icon: L.divIcon({
+                                    className: 'user-marker',
+                                    html: '<i class="fas fa-circle" style="color: #2A6BFF; font-size: 20px;"></i>',
+                                    iconSize: [20, 20]
+                                })
+                            }).addTo(map)
+                              .bindPopup('You are here')
+                              .openPopup();
+                        }
+                        
+                        document.getElementById('location-status').innerHTML = '✅ Location detected! Showing nearby parking spots.';
+                        
+                        // Add sample parking spots nearby
+                        addSampleParkingSpots(userLocation);
+                    },
+                    function(error) {
+                        let errorMsg = '📍 Using default location (Delhi)';
+                        document.getElementById('location-status').innerHTML = errorMsg;
+                        addSampleParkingSpots(defaultLocation);
+                    }
+                );
+            } else {
+                document.getElementById('location-status').innerHTML = '📍 Geolocation not supported. Using default location.';
+                addSampleParkingSpots(defaultLocation);
+            }
+        }
+
+        function addSampleParkingSpots(center) {
+            // Sample parking spots around the center
+            const spots = [
+                { lat: center[0] + 0.01, lng: center[1] - 0.01, name: 'Central Parking', price: '₹50/hr', slots: 45 },
+                { lat: center[0] - 0.008, lng: center[1] + 0.012, name: 'Metro Station Parking', price: '₹40/hr', slots: 120 },
+                { lat: center[0] + 0.015, lng: center[1] + 0.005, name: 'Market Parking', price: '₹60/hr', slots: 30 },
+                { lat: center[0] - 0.012, lng: center[1] - 0.008, name: 'Commercial Complex', price: '₹55/hr', slots: 75 }
+            ];
+            
+            spots.forEach(spot => {
+                L.marker([spot.lat, spot.lng], {
+                    icon: L.divIcon({
+                        className: 'parking-marker',
+                        html: '<i class="fas fa-parking" style="color: white; background: #2A6BFF; padding: 6px; border-radius: 50%; font-size: 14px;"></i>',
+                        iconSize: [26, 26]
+                    })
+                }).addTo(map)
+                  .bindPopup(`
+                    <b>${spot.name}</b><br>
+                    Price: ${spot.price}<br>
+                    Available: ${spot.slots} slots
+                  `);
+            });
+        }
+
+        // ========== PROFILE DROPDOWN ==========
+        function toggleProfile() {
+            document.getElementById('profileDropdown').classList.toggle('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-section')) {
+                document.getElementById('profileDropdown').classList.remove('show');
+            }
+        }
+
+        // ========== USER DATA ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            const user = localStorage.getItem('userName') || 'John';
+            document.getElementById('userName').textContent = user;
+            document.getElementById('welcomeName').textContent = user;
+            
+            // Initialize map
+            initMap();
+        });
+
+        // ========== LOGOUT ==========
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

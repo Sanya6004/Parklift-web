@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Solutions - ParkLift</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #2A6BFF;
+            --secondary-color: #00C48C;
+            --dark-color: #1A1F36;
+            --light-color: #F7F9FC;
+            --text-color: #4A4A4A;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR - WITH MOBILE MENU ===== */
+        .navbar {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            z-index: 1001;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-color);
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+        
+        .btn-get-started {
+            background: var(--primary-color);
+            color: white !important;
+            padding: 8px 20px !important;
+            border-radius: 5px;
+            font-weight: 600 !important;
+        }
+        
+        .btn-get-started:hover {
+            background: var(--secondary-color);
+        }
+
+        /* ===== MOBILE STYLES ===== */
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-links.active {
+                display: flex !important;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+
+            .nav-links a:hover,
+            .nav-links a.active {
+                background: var(--light-color);
+                color: var(--primary-color);
+            }
+
+            .btn-get-started {
+                width: auto !important;
+                margin: 5px auto !important;
+            }
+        }
+        
+        /* Page-specific adjustments */
+        .solutions-page {
+            padding-top: 80px;  /* Navbar height ke hisaab se */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Solutions Section */
+        .solutions-section {
+            flex: 1;
+            padding: 60px 0;
+            background: var(--light-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        /* First Row - Two Cards */
+        .solutions-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .solution-card-large {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .solution-card-large:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(42,107,255,0.15);
+        }
+        
+        .solution-icon-large {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+        
+        .solution-card-large h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+        
+        .solution-card-large p {
+            font-size: 15px;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .solution-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .solution-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+        
+        .solution-list i {
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        
+        /* Second Row - Three Cards */
+        .solutions-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .solution-card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(42,107,255,0.15);
+        }
+        
+        .solution-icon {
+            font-size: 42px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .solution-card:hover .solution-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: var(--secondary-color);
+        }
+        
+        .solution-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 12px;
+        }
+        
+        .solution-card p {
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+        
+        /* Footer - Exactly like homepage */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 0;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section ul li a {
+            color: #A0A8B7;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        .footer-section p {
+            color: #A0A8B7;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-section i {
+            color: var(--primary-color);
+            width: 18px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: #A0A8B7;
+            font-size: 18px;
+            transition: all 0.3s;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .social-links a:hover {
+            color: white;
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid #2A3147;
+            color: #A0A8B7;
+            font-size: 14px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .solutions-grid-2 {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .solutions-grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .solutions-grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation - with Mobile Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">ParkLift</a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="/about">About Us</a>
+                <a href="/services">Services</a>
+                <a href="/solutions" class="active">Solutions</a>
+                <a href="/parking-map">Parking Map</a>
+                <a href="/contact">Contact</a>
+                <a href="/register" class="btn-get-started">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Solutions Page Content -->
+    <div class="solutions-page">
+        <!-- Solutions Section -->
+        <section class="solutions-section">
+            <div class="container">
+                <h2 class="section-title">Our Solutions</h2>
+                <p class="section-subtitle">Cutting-edge technology for modern parking challenges</p>
+                
+                <!-- First Row - Two Cards with proper gap -->
+                <div class="solutions-grid-2">
+                    <!-- IoT Sensors Card -->
+                    <div class="solution-card-large">
+                        <div class="solution-icon-large"><i class="fas fa-microchip"></i></div>
+                        <h3>IoT Sensors</h3>
+                        <p>Real-time parking space detection using advanced IoT sensors with 99.9% accuracy. Our sensors provide instant feedback and seamless integration.</p>
+                        <ul class="solution-list">
+                            <li><i class="fas fa-check-circle"></i> Live availability tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Automatic vehicle detection</li>
+                            <li><i class="fas fa-check-circle"></i> Low power consumption</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- AI Analytics Card -->
+                    <div class="solution-card-large">
+                        <div class="solution-icon-large"><i class="fas fa-robot"></i></div>
+                        <h3>AI Analytics</h3>
+                        <p>Predictive analytics for parking demand and smart pricing optimization. Leverage machine learning to maximize efficiency.</p>
+                        <ul class="solution-list">
+                            <li><i class="fas fa-check-circle"></i> Demand prediction</li>
+                            <li><i class="fas fa-check-circle"></i> Dynamic pricing</li>
+                            <li><i class="fas fa-check-circle"></i> Traffic pattern analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Second Row - Three Cards with proper gap -->
+                <div class="solutions-grid-3">
+                    <!-- Mobile App Card -->
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Mobile App</h3>
+                        <p>Find and book parking spots instantly with our user-friendly mobile application for iOS and Android.</p>
+                    </div>
+                    
+                    <!-- QR Payments Card -->
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-qrcode"></i></div>
+                        <h3>QR Payments</h3>
+                        <p>Contactless entry and exit with QR code-based payment system. Fast, secure, and convenient.</p>
+                    </div>
+                    
+                    <!-- Analytics Dashboard Card -->
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Comprehensive analytics and reporting for parking operators. Real-time insights and performance metrics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer - Exactly like homepage -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="#">Smart Parking</a></li>
+                        <li><a href="#">Municipal Solutions</a></li>
+                        <li><a href="#">Commercial Parking</a></li>
+                        <li><a href="#">Residential Parking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Whitepapers</a></li>
+                        <li><a href="#">Parking Guides</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> E-38/39, Rajiv Chowk, Inner Circle, Block E, Connaught Place, New Delhi, Delhi 110001, India</p>
+                    <p><i class="fas fa-phone"></i> 7022484565</p>
+                    <p><i class="fas fa-envelope"></i> hello@parklift.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Parking Solutions by ParkLift. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ===== MOBILE MENU JAVASCRIPT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (menuToggle && navLinks) {
+                // Toggle menu on button click
+                menuToggle.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    navLinks.classList.toggle('active');
+                    
+                    // Change icon when menu is open/closed
+                    const icon = menuToggle.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        document.body.style.overflow = ''; // Allow scrolling
+                    }
+                });
+
+                // Close menu when clicking on a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close menu on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+</body>
+</html>

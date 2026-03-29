@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Parking - ParkLift</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/map.css">
+    <!-- Leaflet CSS (Free Map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="logo">ParkLift</a>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-parking" class="active">Find Parking</a>
+                <a href="/my-bookings">My Bookings</a>
+                <a href="/profile">Profile</a>
+                <div class="user-menu">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userName">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Container -->
+    <div class="fullscreen-map-container">
+        <!-- Map Header -->
+        <div class="map-header">
+            <div class="map-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchLocation" placeholder="Search for parking locations...">
+            </div>
+            <div class="map-filters">
+                <button class="filter-btn active" onclick="filterParking('all')">
+                    <i class="fas fa-map-marker-alt"></i> All
+                </button>
+                <button class="filter-btn" onclick="filterParking('available')">
+                    <i class="fas fa-check-circle"></i> Available
+                </button>
+                <button class="filter-btn" onclick="filterParking('nearby')">
+                    <i class="fas fa-location-dot"></i> Nearby
+                </button>
+                <button class="filter-btn" onclick="filterParking('cheapest')">
+                    <i class="fas fa-tag"></i> Cheapest
+                </button>
+            </div>
+            <div class="location-permission">
+                <button id="locationBtn" class="location-btn" onclick="requestLocation()">
+                    <i class="fas fa-location-crosshairs"></i>
+                    <span>Enable Location</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Map and Sidebar -->
+        <div class="map-main-content">
+            <!-- Map Area -->
+            <div id="fullMap" class="full-map"></div>
+
+            <!-- Sidebar with Parking List -->
+            <div class="parking-sidebar">
+                <div class="sidebar-header">
+                    <h3>Nearby Parking Spots</h3>
+                    <span class="result-count" id="resultCount">12 spots</span>
+                </div>
+                
+                <!-- Location Status -->
+                <div class="location-status" id="locationStatus">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Please enable location to see nearby spots</span>
+                </div>
+
+                <!-- Parking List -->
+                <div class="parking-list" id="parkingList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Parking Spot</h3>
+                <button class="close-modal" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="bookingModalBody">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/location-tracker.js"></script>
+    <script src="js/map-integration.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - ParkLift</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="logo">ParkLift</a>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/find-parking">Find Parking</a>
+                <a href="/my-bookings" class="active">My Bookings</a>
+                <a href="/profile">Profile</a>
+                <div class="user-menu">
+                    <button class="user-menu-btn">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userName">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                        <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- My Bookings Content -->
+    <div class="dashboard-container">
+        <h1 class="page-title">My Bookings</h1>
+        
+        <!-- Booking Tabs -->
+        <div class="booking-tabs">
+            <button class="tab-btn active" onclick="switchTab('active')">Active</button>
+            <button class="tab-btn" onclick="switchTab('upcoming')">Upcoming</button>
+            <button class="tab-btn" onclick="switchTab('completed')">Completed</button>
+            <button class="tab-btn" onclick="switchTab('cancelled')">Cancelled</button>
+        </div>
+        
+        <!-- Bookings List -->
+        <div class="bookings-list" id="bookingsList">
+            <!-- Active Bookings -->
+            <div class="booking-item active">
+                <div class="booking-item-header">
+                    <div>
+                        <h3>Connaught Place Parking</h3>
+                        <p class="booking-location"><i class="fas fa-map-marker-alt"></i> Block E, Connaught Place, New Delhi</p>
+                    </div>
+                    <span class="booking-status-badge active">Active</span>
+                </div>
+                <div class="booking-item-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>Today, 2:00 PM - 5:00 PM</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-car"></i>
+                        <span>Vehicle: HR26 XX 1234 (Honda City)</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-tag"></i>
+                        <span>Booking ID: #PK123456</span>
+                    </div>
+                </div>
+                <div class="booking-item-footer">
+                    <span class="booking-price">₹150</span>
+                    <div class="booking-actions">
+                        <button class="btn-extend" onclick="extendBooking('PK123456')">Extend</button>
+                        <button class="btn-cancel" onclick="cancelBooking('PK123456')">Cancel</button>
+                        <button class="btn-view" onclick="viewBooking('PK123456')">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upcoming Booking -->
+            <div class="booking-item upcoming">
+                <div class="booking-item-header">
+                    <div>
+                        <h3>Rajiv Chowk Metro Parking</h3>
+                        <p class="booking-location"><i class="fas fa-map-marker-alt"></i> Rajiv Chowk, New Delhi</p>
+                    </div>
+                    <span class="booking-status-badge upcoming">Upcoming</span>
+                </div>
+                <div class="booking-item-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>Tomorrow, 9:00 AM - 12:00 PM</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-car"></i>
+                        <span>Vehicle: DL01 AB 5678 (Maruti Swift)</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-tag"></i>
+                        <span>Booking ID: #PK123457</span>
+                    </div>
+                </div>
+                <div class="booking-item-footer">
+                    <span class="booking-price">₹120</span>
+                    <div class="booking-actions">
+                        <button class="btn-modify" onclick="modifyBooking('PK123457')">Modify</button>
+                        <button class="btn-cancel" onclick="cancelBooking('PK123457')">Cancel</button>
+                        <button class="btn-view" onclick="viewBooking('PK123457')">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completed Booking -->
+            <div class="booking-item completed">
+                <div class="booking-item-header">
+                    <div>
+                        <h3>Palika Bazaar Parking</h3>
+                        <p class="booking-location"><i class="fas fa-map-marker-alt"></i> Palika Bazaar, Connaught Place</p>
+                    </div>
+                    <span class="booking-status-badge completed">Completed</span>
+                </div>
+                <div class="booking-item-details">
+                    <div class="detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>Yesterday, 3:00 PM - 6:00 PM</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-car"></i>
+                        <span>Vehicle: DL02 CD 9012 (Hyundai i20)</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-tag"></i>
+                        <span>Booking ID: #PK123458</span>
+                    </div>
+                </div>
+                <div class="booking-item-footer">
+                    <span class="booking-price">₹180</span>
+                    <div class="booking-actions">
+                        <button class="btn-rebook" onclick="rebook('PK123458')">Book Again</button>
+                        <button class="btn-review" onclick="writeReview('PK123458')">Write Review</button>
+                        <button class="btn-view" onclick="viewBooking('PK123458')">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Same footer as before -->
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+</body>
+</html>

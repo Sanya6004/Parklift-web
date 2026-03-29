@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - ParkLift</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Additional styles for better UI */
+        .auth-container {
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #e1e5e9;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+        }
+        
+        .password-strength-bar.weak {
+            width: 33.33%;
+            background: #f44336;
+        }
+        
+        .password-strength-bar.medium {
+            width: 66.66%;
+            background: #ff9800;
+        }
+        
+        .password-strength-bar.strong {
+            width: 100%;
+            background: #4caf50;
+        }
+        
+        .password-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <a href="/" class="logo">ParkLift</a>
+            <h2>Create Account</h2>
+            <p class="tagline">Help keep our streets clear of wrong parking</p>
+        </div>
+
+        <form class="auth-form" id="registerForm">
+            <div class="form-group">
+                <label for="fullname"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <div class="password-input">
+                    <input type="password" id="password" name="password" placeholder="Create a password" required onkeyup="checkPasswordStrength()">
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('password')"></i>
+                </div>
+                <div class="password-strength">
+                    <div class="password-strength-bar" id="passwordStrength"></div>
+                </div>
+                <div class="password-hint" id="passwordHint">Use at least 6 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password"><i class="fas fa-lock"></i> Confirm Password</label>
+                <div class="password-input">
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('confirm-password')"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="city"><i class="fas fa-city"></i> City</label>
+                <input type="text" id="city" name="city" placeholder="Enter your city" required>
+            </div>
+
+            <div class="form-group">
+                <label class="remember-me" style="justify-content: flex-start; gap: 0.5rem;">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-block" id="submitBtn">Create Account</button>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button type="button" class="btn-google" onclick="googleSignUp()">
+                <i class="fab fa-google"></i>
+                Sign up with Google
+            </button>
+
+            <div class="login-link">
+                Already have an account? <a href="/login">Sign In</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- SINGLE JavaScript Section - All functions here -->
+    <script>
+        // ========== UTILITY FUNCTIONS ==========
+        
+        // Toggle password visibility
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = field.nextElementSibling;
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const hint = document.getElementById('passwordHint');
+            
+            strengthBar.className = 'password-strength-bar';
+            
+            if (password.length === 0) {
+                strengthBar.style.width = '0';
+                hint.textContent = 'Use at least 6 characters';
+                return;
+            }
+            
+            let strength = 0;
+            
+            // Length check
+            if (password.length >= 6) strength += 1;
+            if (password.length >= 8) strength += 1;
+            
+            // Character variety checks
+            if (/[a-z]/.test(password)) strength += 0.5;
+            if (/[A-Z]/.test(password)) strength += 0.5;
+            if (/[0-9]/.test(password)) strength += 0.5;
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 0.5;
+            
+            if (strength < 2) {
+                strengthBar.classList.add('weak');
+                hint.textContent = 'Weak password';
+            } else if (strength < 3.5) {
+                strengthBar.classList.add('medium');
+                hint.textContent = 'Medium password';
+            } else {
+                strengthBar.classList.add('strong');
+                hint.textContent = 'Strong password';
+            }
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            // Remove any existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            
+            // Create alert element
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            // Insert at top of form
+            const form = document.querySelector('.auth-form');
+            form.insertBefore(alert, form.firstChild);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 3000);
+        }
+
+        // ========== FORM SUBMISSION ==========
+        
+        // Handle form submit
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const city = document.getElementById('city').value.trim();
+            const terms = document.getElementById('terms').checked;
+
+            // Validation
+            if (!fullname) {
+                showAlert('Please enter your full name', 'error');
+                return;
+            }
+
+            if (!email) {
+                showAlert('Please enter your email address', 'error');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
+
+            if (!phone) {
+                showAlert('Please enter your phone number', 'error');
+                return;
+            }
+
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone)) {
+                showAlert('Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+
+            if (!password) {
+                showAlert('Please enter a password', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters long', 'error');
+                return;
+            }
+
+            if (!confirmPassword) {
+                showAlert('Please confirm your password', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match', 'error');
+                return;
+            }
+
+            if (!city) {
+                showAlert('Please enter your city', 'error');
+                return;
+            }
+
+            if (!terms) {
+                showAlert('Please agree to the Terms of Service and Privacy Policy', 'error');
+                return;
+            }
+
+            // Disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+
+            // Show success message
+            showAlert('Account created successfully! Redirecting to dashboard...', 'success');
+            
+            // Store user info
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', fullname.split(' ')[0]);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userCity', city);
+            
+            // ✅ DIRECT REDIRECT TO DASHBOARD - 2 SECOND DELAY
+            setTimeout(function() {
+                window.location.href = '/dashboard';
+            }, 2000);
+        });
+
+        // Google Sign Up
+        function googleSignUp() {
+            showAlert('Connecting to Google...', 'info');
+            
+            setTimeout(() => {
+                showAlert('Google Sign Up successful! Redirecting...', 'success');
+                
+                // Store user info
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', 'Google User');
+                
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 1500);
+            }, 1500);
+        }
+
+        // ========== PAGE LOAD ==========
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                window.location.href = '/dashboard';
+            }
+        });
+    </script>
+
+    <!-- External scripts (keep only these) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+</body>
+</html>

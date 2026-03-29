@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>ParkLift - Smart Parking Solutions</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/animations.css">
+    <script src="js/particles-config.js"></script>
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #2A6BFF;
+            --secondary-color: #00C48C;
+            --dark-color: #1A1F36;
+            --white: #FFFFFF;
+        }
+
+        /* Mobile Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-color);
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        /* Fix for navbar on mobile */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                background: var(--white);
+            }
+            
+            .nav-container {
+                position: relative;
+                z-index: 1001;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+                border-top: 1px solid #eee;
+            }
+            
+            .nav-links.active {
+                display: flex !important;
+            }
+            
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                font-size: 16px;
+                text-decoration: none;
+                color: var(--dark-color);
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            
+            .nav-links a:hover,
+            .nav-links a.active {
+                background: #f5f7fa;
+                color: var(--primary-color);
+            }
+            
+            .btn-get-started {
+                width: auto !important;
+                margin: 5px auto !important;
+                display: inline-block !important;
+                background: var(--primary-color) !important;
+                color: white !important;
+                padding: 10px 20px !important;
+                border-radius: 5px;
+            }
+            
+            .btn-get-started:hover {
+                background: var(--secondary-color) !important;
+            }
+        }
+
+        /* Ensure navbar links are clickable */
+        .nav-links a {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Prevent body scroll when menu is open */
+        body.menu-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation with Mobile Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">ParkLift</a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="active" onclick="closeMenu()">Home</a>
+                <a href="/about" onclick="closeMenu()">About Us</a>
+                <a href="/services" onclick="closeMenu()">Services</a>
+                <a href="/solutions" onclick="closeMenu()">Solutions</a>
+                <a href="/parking-map" onclick="closeMenu()">Parking Map</a>
+                <a href="/contact" onclick="closeMenu()">Contact</a>
+                <a href="/register" class="btn-get-started" onclick="closeMenu()">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Shaping the Future of<br><span class="highlight">Parking</span></h1>
+                <p class="hero-description">Our mission is to be the best Parking Solutions provider in the India by delivering unprecedented value to our customers, investors, and partners.</p>
+                <div class="hero-buttons">
+                    <a href="/services" class="btn btn-primary">Our Services</a>
+                    <a href="/contact" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/images/banner_image.png" alt="Parking Cars" class="banner-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <p class="story-text">Founded with a vision to revolutionize parking, we've grown from a local startup to a global leader in parking solutions.</p>
+            
+            <div class="timeline-grid">
+                <div class="timeline-card">
+                    <div class="timeline-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>2025 - The Beginning</h3>
+                    <p>"While hanging out with friends, this idea came to life.", we started with a simple idea: parking shouldn't be stressful.</p>
+                </div>
+                <div class="timeline-card">
+                    <div class="timeline-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>2025 - First Major Contract</h3>
+                    <p>Landed our first city-wide parking management contract, proving our innovative approach worked at scale.</p>
+                </div>
+                <div class="timeline-card">
+                    <div class="timeline-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>2030 - Industry Leader</h3>
+                    <p>Recognized as the #1 parking solutions provider worldwide, serving over 500 cities across 4 States.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision-section">
+        <div class="container">
+            <h2 class="section-title">Our Mission & Vision</h2>
+            <p class="section-subtitle">Driving innovation in parking to create seamless experiences for everyone.</p>
+            
+            <div class="mission-vision-grid">
+                <!-- Mission Card -->
+                <div class="mission-card">
+                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>To be the best Parking Solutions provider in the India by delivering unprecedented value and opportunity to our customers, investors, and partners through innovative technology and exceptional service.</p>
+                    <ul class="mission-list">
+                        <li><i class="fas fa-check-circle"></i> Revolutionize urban mobility through smart parking</li>
+                        <li><i class="fas fa-check-circle"></i> Reduce congestion and environmental impact</li>
+                        <li><i class="fas fa-check-circle"></i> Create seamless parking experiences</li>
+                    </ul>
+                </div>
+                
+                <!-- Vision Card -->
+                <div class="vision-card">
+                    <div class="card-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>To shape the future of Parking Services by developing technologies that make parking effortless, efficient, and environmentally friendly for cities, businesses.</p>
+                    <ul class="vision-list">
+                        <li><i class="fas fa-check-circle"></i> Pioneer AI-powered parking solutions</li>
+                        <li><i class="fas fa-check-circle"></i> Expand to 28 States by 2030</li>
+                        <li><i class="fas fa-check-circle"></i> Eliminate parking frustrations globally</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Cities Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3>4</h3>
+                    <p>States</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10M+</h3>
+                    <p>Daily Parkings</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2,500</h3>
+                    <p>Team Members</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="section-subtitle">The principles that guide everything we do</p>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h3>Innovation</h3>
+                    <p>We constantly push boundaries to develop cutting-edge parking solutions that anticipate future needs.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-users"></i></div>
+                    <h3>Customer Focus</h3>
+                    <p>Every decision we make starts with how it will improve the experience for our customers and their communities.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Sustainability</h3>
+                    <p>We're committed to reducing the environmental impact of parking through smart technology and efficient design.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Integrity</h3>
+                    <p>We operate with transparency, honesty, and accountability in all our relationships and business practices.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-star"></i></div>
+                    <h3>Excellence</h3>
+                    <p>We strive for perfection in every aspect of our service, from technology to customer interactions.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Community</h3>
+                    <p>We believe in giving back to the communities we serve and creating positive social impact through our work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Leadership</h2>
+            <p class="section-subtitle">The visionary team driving our global parking revolution</p>
+            
+            <div class="team-grid">
+                <!-- Sagar Pawar -->
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Sagar Pawar</h3>
+                        <p class="position">Founder & CEO</p>
+                        <p class="bio">Visionary leader who pioneered the smart parking movement and continues to drive our global strategy.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sanjeev Thakur -->
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Sanjeev Thakur</h3>
+                        <p class="position">Chief Technology Officer</p>
+                        <p class="bio">Tech innovator behind our AI-powered parking systems and IoT infrastructure development.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shivam Yadav -->
+                <div class="team-card">
+                    <div class="team-image">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="team-info">
+                        <h3>Shivam Yadav</h3>
+                        <p class="position">Chief Operations Officer</p>
+                        <p class="bio">Operational mastermind ensuring seamless service delivery across all our global locations.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Parking Experience?</h2>
+            <p>Join thousands of satisfied customers who trust us for their parking needs.</p>
+            <div class="cta-buttons">
+                <a href="/register" class="btn btn-primary btn-large">Get a Free Consultation</a>
+                <a href="/solutions" class="btn btn-outline btn-large">Learn About Our Solutions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#">Smart Parking</a></li>
+                    <li><a href="#">Municipal Solutions</a></li>
+                    <li><a href="#">Commercial Parking</a></li>
+                    <li><a href="#">Residential Parking</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Whitepapers</a></li>
+                    <li><a href="#">Parking Guides</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> E-38/39, Rajiv Chowk, Inner Circle, Block E, Connaught Place, New Delhi, Delhi 110001, India</p>
+                <p><i class="fas fa-phone"></i> 7022484565</p>
+                <p><i class="fas fa-envelope"></i> hello@parklift.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p><i class="fas fa-copyright"></i> 2025 Parking Solutions by ParkLift. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const body = document.body;
+            
+            navLinks.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navLinks.classList.contains('active')) {
+                body.classList.add('menu-open');
+            } else {
+                body.classList.remove('menu-open');
+            }
+        }
+        
+        // Close menu function
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('navLinks');
+            const toggle = document.querySelector('.menu-toggle');
+            const isClickInside = nav.contains(event.target) || toggle.contains(event.target);
+            
+            if (!isClickInside && nav.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Close menu when window resizes to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+
+        // Prevent menu from closing when clicking on links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Don't prevent default - let the navigation happen
+                closeMenu();
+            });
+        });
+    </script>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+</body>
+</html>

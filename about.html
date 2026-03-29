@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>About Us - ParkLift</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #2A6BFF;
+            --secondary-color: #00C48C;
+            --dark-color: #1A1F36;
+            --light-color: #F7F9FC;
+            --text-color: #4A4A4A;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR - EXACTLY LIKE HOMEPAGE WITH MOBILE MENU ===== */
+        .navbar {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            z-index: 1001;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-color);
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .btn-get-started {
+            background: var(--primary-color);
+            color: var(--white) !important;
+            padding: 8px 20px !important;
+            border-radius: 5px;
+            font-weight: 600 !important;
+        }
+
+        /* ===== MOBILE STYLES ===== */
+        @media screen and (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                z-index: 999;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-links.active {
+                display: flex !important;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+
+            .nav-links a:hover,
+            .nav-links a.active {
+                background: var(--light-color);
+                color: var(--primary-color);
+            }
+
+            .btn-get-started {
+                width: auto !important;
+                margin: 5px auto !important;
+            }
+        }
+
+        /* Page-specific adjustments */
+        .about-page {
+            padding-top: 80px; /* Navbar height ke hisaab se */
+        }
+        
+        .about-page .story-section,
+        .about-page .mission-vision-section,
+        .about-page .stats-section,
+        .about-page .values-section,
+        .about-page .leadership-section {
+            scroll-margin-top: 100px; /* Navbar ke neeche scroll hoga */
+        }
+        
+        /* Story section styling */
+        .story-section {
+            padding: 60px 0;
+            background: #F7F9FC;
+        }
+        
+        .story-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: #4A4A4A;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
+        }
+        
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .timeline-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(42, 107, 255, 0.1);
+        }
+        
+        .timeline-icon {
+            font-size: 40px;
+            color: #2A6BFF;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #2A6BFF;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #4A4A4A;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Mission & Vision Grid */
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .mission-card, .vision-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .mission-card h3, .vision-card h3 {
+            font-size: 24px;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .mission-list, .vision-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .mission-list li, .vision-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-list i, .vision-list i {
+            color: var(--primary-color);
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .value-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .value-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .team-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 80px;
+        }
+
+        .team-info {
+            padding: 25px;
+        }
+
+        .team-info h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .team-info .position {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .team-social {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .team-social a {
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+
+        .team-social a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #A0A8B7;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-section p {
+            color: #A0A8B7;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-section i {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #A0A8B7;
+            font-size: 18px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid #2A3147;
+            color: #A0A8B7;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline-grid,
+            .mission-vision-grid,
+            .values-grid,
+            .team-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar - EXACTLY SAME AS HOMEPAGE with Mobile Menu -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">ParkLift</a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="/about" class="active">About Us</a>
+                <a href="/services">Services</a>
+                <a href="/solutions">Solutions</a>
+                <a href="/parking-map">Parking Map</a>
+                <a href="/contact">Contact</a>
+                <a href="/register" class="btn-get-started">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Page Content -->
+    <div class="about-page">
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="story-section">
+            <div class="container">
+                <h2 class="section-title">Our Story</h2>
+                <p class="story-text">Founded with a vision to revolutionize parking, we've grown from a local startup to a global leader in parking solutions.</p>
+                
+                <!-- Timeline Cards -->
+                <div class="timeline-grid">
+                    <!-- 2025 - The Beginning -->
+                    <div class="timeline-card">
+                        <div class="timeline-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h3>2025 - The Beginning</h3>
+                        <p>"While hanging out with friends, this idea came to life.", we started with a simple idea: parking shouldn't be stressful.</p>
+                    </div>
+                    
+                    <!-- 2025 - First Major Contract -->
+                    <div class="timeline-card">
+                        <div class="timeline-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>2025 - First Major Contract</h3>
+                        <p>Landed our first city-wide parking management contract, proving our innovative approach worked at scale.</p>
+                    </div>
+                    
+                    <!-- 2030 - Industry Leader -->
+                    <div class="timeline-card">
+                        <div class="timeline-icon"><i class="fas fa-trophy"></i></div>
+                        <h3>2030 - Industry Leader</h3>
+                        <p>Recognized as the #1 parking solutions provider worldwide, serving over 500 cities across 4 States.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision Section -->
+        <section id="mission-vision" class="mission-vision-section">
+            <div class="container">
+                <h2 class="section-title">Our Mission & Vision</h2>
+                <p class="section-subtitle">Driving innovation in parking to create seamless experiences for everyone.</p>
+                
+                <div class="mission-vision-grid">
+                    <!-- Mission Card -->
+                    <div class="mission-card">
+                        <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                        <h3>Our Mission</h3>
+                        <p>To be the best Parking Solutions provider in the India by delivering unprecedented value and opportunity to our customers, investors, and partners through innovative technology and exceptional service.</p>
+                        <ul class="mission-list">
+                            <li><i class="fas fa-check-circle"></i> Revolutionize urban mobility through smart parking</li>
+                            <li><i class="fas fa-check-circle"></i> Reduce congestion and environmental impact</li>
+                            <li><i class="fas fa-check-circle"></i> Create seamless parking experiences</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Vision Card -->
+                    <div class="vision-card">
+                        <div class="card-icon"><i class="fas fa-eye"></i></div>
+                        <h3>Our Vision</h3>
+                        <p>To shape the future of Parking Services by developing technologies that make parking effortless, efficient, and environmentally friendly for cities, businesses.</p>
+                        <ul class="vision-list">
+                            <li><i class="fas fa-check-circle"></i> Pioneer AI-powered parking solutions</li>
+                            <li><i class="fas fa-check-circle"></i> Expand to 28 States by 2030</li>
+                            <li><i class="fas fa-check-circle"></i> Eliminate parking frustrations globally</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Core Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title">Our Core Values</h2>
+                <p class="section-subtitle">The principles that guide everything we do</p>
+                
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Innovation</h3>
+                        <p>We constantly push boundaries to develop cutting-edge parking solutions that anticipate future needs.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-users"></i></div>
+                        <h3>Customer Focus</h3>
+                        <p>Every decision we make starts with how it will improve the experience for our customers and their communities.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-leaf"></i></div>
+                        <h3>Sustainability</h3>
+                        <p>We're committed to reducing the environmental impact of parking through smart technology and efficient design.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Integrity</h3>
+                        <p>We operate with transparency, honesty, and accountability in all our relationships and business practices.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-star"></i></div>
+                        <h3>Excellence</h3>
+                        <p>We strive for perfection in every aspect of our service, from technology to customer interactions.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon"><i class="fas fa-heart"></i></div>
+                        <h3>Community</h3>
+                        <p>We believe in giving back to the communities we serve and creating positive social impact through our work.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Section -->
+        <section class="leadership-section">
+            <div class="container">
+                <h2 class="section-title">Meet Our Leadership</h2>
+                <p class="section-subtitle">The visionary team driving our global parking revolution</p>
+                
+                <div class="team-grid">
+                    <!-- Sagar Pawar -->
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="team-info">
+                            <h3>Sagar Pawar</h3>
+                            <p class="position">Founder & CEO</p>
+                            <p class="bio">Visionary leader who pioneered the smart parking movement and continues to drive our global strategy.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sanjeev Thakur -->
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="team-info">
+                            <h3>Sanjeev Thakur</h3>
+                            <p class="position">Chief Technology Officer</p>
+                            <p class="bio">Tech innovator behind our AI-powered parking systems and IoT infrastructure development.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Shivam Yadav -->
+                    <div class="team-card">
+                        <div class="team-image">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="team-info">
+                            <h3>Shivam Yadav</h3>
+                            <p class="position">Chief Operations Officer</p>
+                            <p class="bio">Operational mastermind ensuring seamless service delivery across all our global locations.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer - EXACTLY SAME AS HOMEPAGE -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Solutions</h3>
+                <ul>
+                    <li><a href="#">Smart Parking</a></li>
+                    <li><a href="#">Municipal Solutions</a></li>
+                    <li><a href="#">Commercial Parking</a></li>
+                    <li><a href="#">Residential Parking</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Whitepapers</a></li>
+                    <li><a href="#">Parking Guides</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-map-marker-alt"></i> E-38/39, Rajiv Chowk, New Delhi</p>
+                <p><i class="fas fa-phone"></i> 7022484565</p>
+                <p><i class="fas fa-envelope"></i> hello@parklift.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p><i class="fas fa-copyright"></i> 2025 Parking Solutions by ParkLift. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== MOBILE MENU JAVASCRIPT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (menuToggle && navLinks) {
+                // Toggle menu on button click
+                menuToggle.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    navLinks.classList.toggle('active');
+                    
+                    // Change icon when menu is open/closed
+                    const icon = menuToggle.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                        document.body.style.overflow = 'hidden'; // Prevent scrolling
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        document.body.style.overflow = ''; // Allow scrolling
+                    }
+                });
+
+                // Close menu when clicking on a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Close menu on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        navLinks.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+
+        // Scroll to sections when page loads with hash
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const targetSection = document.querySelector(window.location.hash);
+                    if (targetSection) {
+                        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - navbarHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+
+</body>
+</html>
